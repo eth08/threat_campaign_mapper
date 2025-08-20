@@ -74,6 +74,13 @@ COLUMN_HEADERS = [
     Column.DESCRIPTION, Column.APT_GROUP, Column.TTPS, Column.TOOLS,
     Column.FIRST_SEEN, Column.LAST_SEEN, Column.IOCS
 ]
+
+COLUMN_HEADERS_FOR_EXPORT_XLSX = [
+    Column.CATEGORY, Column.CAMPAIGN_ID, Column.CAMPAIGN_NAME, Column.ALIASES,
+    Column.DESCRIPTION, Column.APT_GROUP, Column.TTPS, Column.TOOLS,
+    Column.FIRST_SEEN, Column.LAST_SEEN
+]
+
 # The full list of columns including our internal one
 ALL_COLUMNS = COLUMN_HEADERS + [Column.UUID]
 
@@ -485,8 +492,8 @@ class ThreatCampaignMapperApp(QMainWindow):
         """Displays a rich-text 'About' message box."""
         about_text = (
             f"<h3>Threat Campaign Mapper</h3>"
-            f"<p><b>Version:&nbsp;</b> {__version__}</p>"
-            f"<p><b>Author:&nbsp;</b> <a href='https://github.com/{__author__}'>{__author__}</a></p>"
+            f"<p><b>Version:</b>&nbsp;{__version__}</p>"
+            f"<p><b>Author:</b>&nbsp;<a href='https://github.com/{__author__}'>{__author__}</a></p>"
             f"<p>This application automates the process of pulling malware campaign details from MITRE ATT&CK and gathering associated IOCs from AlienVault OTX, providing a comprehensive view for threat intelligence.</p>"
         )
         QMessageBox.about(self, "About", about_text)
@@ -963,7 +970,7 @@ class ThreatCampaignMapperApp(QMainWindow):
         
         try:
             # Don't export our internal UUID column
-            export_df = self.results_df[COLUMN_HEADERS].copy()
+            export_df = self.results_df[COLUMN_HEADERS_FOR_EXPORT_XLSX].copy()
             for col in [Column.ALIASES, Column.TTPS, Column.TOOLS]:
                 export_df[col] = export_df[col].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
             export_df.to_excel(path, index=False, engine='openpyxl')
