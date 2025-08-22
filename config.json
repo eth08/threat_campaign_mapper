@@ -1,0 +1,17 @@
+{
+  "cache_duration_seconds": 86400,
+  "attack_data_sources": {
+    "Enterprise": {
+      "url": "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json",
+      "file": "enterprise-attack.json"
+    },
+    "ICS": {
+      "url": "https://github.com/mitre-attack/attack-stix-data/blob/master/ics-attack/ics-attack.json?raw=true",
+      "file": "ics-attack.json"
+    },
+    "Mobile": {
+      "url": "https://github.com/mitre-attack/attack-stix-data/blob/master/mobile-attack/mobile-attack.json?raw=true",
+      "file": "mobile-attack.json"
+    }
+  }
+}

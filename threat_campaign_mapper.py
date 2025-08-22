@@ -83,26 +83,20 @@ COLUMN_HEADERS_FOR_EXPORT_XLSX = [
 
 # The full list of columns including our internal one
 ALL_COLUMNS = COLUMN_HEADERS + [Column.UUID]
-
-
-ATTACK_DATA_CONFIG = {
-    "Enterprise": {
-        "url": "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json",
-        "file": "enterprise-attack.json"
-    },
-    "ICS": {
-        "url": "https://github.com/mitre-attack/attack-stix-data/blob/master/ics-attack/ics-attack.json?raw=true",
-        "file": "ics-attack.json"
-    },
-    "Mobile": {
-        "url": "https://github.com/mitre-attack/attack-stix-data/blob/master/mobile-attack/mobile-attack.json?raw=true",
-        "file": "mobile-attack.json"
-    }
-}
-
-CACHE_DURATION_SECONDS = 24 * 60 * 60  # 24 hours
 KEYRING_SERVICE_NAME = "ThreatCampaignMapper"
 KEYRING_USERNAME = "OTX_API_KEY"
+
+CONFIG = {}
+try:
+    with open("config.json", "r") as f:
+        CONFIG = json.load(f)
+    ATTACK_DATA_CONFIG = CONFIG.get("attack_data_sources", {})
+    CACHE_DURATION_SECONDS = CONFIG.get("cache_duration_seconds", 86400) # Default 24h
+except FileNotFoundError:
+    # Handle the case where the config file is missing
+    print("FATAL: config.json not found!")
+    sys.exit(1)
+
 
 # --------------------
 # Worker Signals
@@ -1018,6 +1012,25 @@ class ThreatCampaignMapperApp(QMainWindow):
         except Exception as e:
             logging.error(f"Failed to save {ioc_type} TXT file", exc_info=True)
             QMessageBox.critical(self, "Save Error", f"Failed to save TXT file:\n{e}")
+
+    def closeEvent(self, event):
+        """
+        Handles the user closing the window to ensure graceful shutdown.
+        """
+        # Interrupt any running main worker
+        if self.current_runnable:
+            self.current_runnable.interrupt()
+
+        # Interrupt all running IOC workers
+        for worker in self.ioc_workers_by_uuid.values():
+            worker.interrupt()
+
+        logging.info("Waiting for background threads to finish...")
+        # This will block until all submitted runnables have completed
+        self.threadpool.waitForDone()
+
+        logging.info("Threads finished. Shutting down.")
+        event.accept() # Now, accept the close event
 
 # --------------------
 # Main Execution
