@@ -57,10 +57,6 @@ To set up the application, you'll first need to install the required Python pack
     * Check "Enable OTX IOCs Search" to retrieve IOCs for each campaign. If it's your first time, you will be prompted to enter your OTX API key, which can be saved securely using the "Save Key" button.
     * Click "Search Campaigns" to begin the search.
 
-## Contributing
-
-Feel free to open issues or submit pull requests to improve the application.
-
 ## License
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
