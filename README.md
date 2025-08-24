@@ -1,6 +1,5 @@
 # Threat Campaign Mapper
 
-![Python CI/CD](https://github.com/eth08/threat_campaign_mapper/actions/workflows/main.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Version](https://img.shields.io/badge/version-0.5.1-orange)
 
