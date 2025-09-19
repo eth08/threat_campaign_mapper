@@ -21,7 +21,7 @@ To set up the application, you'll first need to install the required Python pack
 
 1.  **Clone the repository (or download the script):**
     ```bash
-    git clone [https://github.com/eth08/threat_campaign_mapper.git](https://github.com/eth08/threat_campaign_mapper.git)
+    git clone https://github.com/eth08/threat_campaign_mapper.git
     cd threat_campaign_mapper
     ```
 
