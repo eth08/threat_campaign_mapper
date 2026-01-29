@@ -621,12 +621,16 @@ class ThreatCampaignMapperApp(QMainWindow):
         self.status_label.setText(f"Downloading {attack_category} data...")
         QApplication.processEvents()
         try:
-            response = requests.get(config["url"])
+            response = requests.get(config["url"], timeout=(3.05, 27))
             response.raise_for_status()
             with open(cache_file_name, "w", encoding="utf-8") as f:
                 json.dump(response.json(), f)
             logging.info(f"Successfully downloaded and saved {attack_category} data.")
             return cache_file_name
+        except requests.exceptions.Timeout:
+            logging.error(f"Request Timeout: Failed to download MITRE data for {attack_category}", exc_info=True)
+            QMessageBox.critical(self, "Request Timeout", f"Failed to download MITRE ATT&CK data for {attack_category}:\n{e}")
+            return None
         except requests.exceptions.RequestException as e:
             logging.error(f"Failed to download MITRE data for {attack_category}", exc_info=True)
             QMessageBox.critical(self, "Download Error", f"Failed to download MITRE ATT&CK data for {attack_category}:\n{e}")
