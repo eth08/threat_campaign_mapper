@@ -5,12 +5,12 @@ charset-normalizer==3.4.3
 click==8.2.1
 colour==0.1.5
 cryptography==45.0.6
-deepdiff==8.6.0
+deepdiff==8.6.1
 drawsvg==2.4.0
 et_xmlfile==2.0.0
 idna==3.10
 jaraco.classes==3.4.0
-jaraco.context==6.0.1
+jaraco.context==6.1.0
 jaraco.functools==4.3.0
 jeepney==0.9.0
 keyring==25.6.0
@@ -50,5 +50,5 @@ tqdm==4.67.1
 typer==0.16.1
 typing_extensions==4.14.1
 tzdata==2025.2
-urllib3==2.5.0
+urllib3==2.6.3
 xlsxwriter==3.2.5
